@@ -88,19 +88,19 @@ make run
 이 명령어를 통해 `server.go`에서 작성한 grpc 서버를 실행할 수 있습니다.
 
 ### 30.4 gRPC란?
-gRPC란 구글에서 만든 오픈 소스 원격 프로시져 콜(Remote Procedure Call) 프레임워크입니다.
-RPC는 네트워크를 통해서 다른 컴퓨터에서 원하는 함수(또는 기능)을 실행하는 것입니다.
-gRPC는 이것을 편하게 하는 프레임워크로 사용이 쉽고 성능이 빠르기 때문에, 가장 많이 사용되는 RPC 프레임워크입니다.
+gRPC란 구글에서 만든 오픈 소스 원격 프로시져 콜(Remote Procedure Call) 프레임워크입니다.<br/>
+RPC는 네트워크를 통해서 다른 컴퓨터에서 원하는 함수(또는 기능)을 실행하는 것입니다.<br/>
+gRPC는 이것을 편하게 하는 프레임워크로 사용이 쉽고 성능이 빠르기 때문에, 가장 많이 사용되는 RPC 프레임워크입니다.<br/>
 
 gRPC를 사용하기 때문에 gRPC 라이브러리를 설치합니다.
 ```bash
 go get -u google.golang.org/grpc
 ```
 ### 30.4.1 프로토버퍼(Protobuf)
-gRPC는 내부에서 메시지를 직렬화(Serialize)하려면 프로토버퍼 컴파일러를 사용하고 있습니다.
-직렬화라는 것은 구조체 형태의 데이터를 하나의 바이너리 배열로 바꾸는 과정이라고 보면 됩니다.
-역직렬화(Deserialize)는 다시 바이너리 배열을 구조체 형태의 데이터로 역변환하는 과정입니다.
-
+gRPC는 내부에서 메시지를 직렬화(Serialize)하려면 프로토버퍼 컴파일러를 사용하고 있습니다.<br/>
+직렬화라는 것은 구조체 형태의 데이터를 하나의 바이너리 배열로 바꾸는 과정이라고 보면 됩니다.<br/>
+역직렬화(Deserialize)는 다시 바이너리 배열을 구조체 형태의 데이터로 역변환하는 과정입니다.<br/>
+<br/>
 프로토버퍼는 구조체 데이터를 정의하고 그 데이터를 직렬화/역직렬화하는 기능을 제공합니다.
 
 ### 30.4.2 Linux에서 설치
@@ -120,15 +120,15 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 ```
 * 주의
-protoc-gen-go 의 PATH를 못 찾는 경우가 있으므로 환경변수에 PATH를 추가해야한다.
+protoc-gen-go 의 PATH를 못 찾는 경우가 있으므로 환경변수에 PATH를 추가해야합니다.
 ```bash
 export PATH="$HOME/go/bin:$PATH"
 ```
 ### 30.5 gRPC를 이용한 채팅 프로그램
 ### 30.5.1 제작 과정
-gRPC를 이용해서 채팅 프로그램을 만들기 위해서는 먼저 클라이언트와 서버 간 주고받을 데이터를 정의하는 서비스 정의 파일을 만들어야 합니다.
-이 서비스 정의 파일은 프로토버퍼에 정한 형식을 따라야 합니다.
-서비스 정의파일에 정의한 서버스에 해당하는 go 코드를 생성하면, 클라이언트와 서버에 사용할 수 있는 인터페이스 형식이 포함되어 있습니다.
+gRPC를 이용해서 채팅 프로그램을 만들기 위해서는 먼저 클라이언트와 서버 간 주고받을 데이터를 정의하는 서비스 정의 파일을 만들어야 합니다.<br/>
+이 서비스 정의 파일은 프로토버퍼에 정한 형식을 따라야 합니다.<br/>
+서비스 정의파일에 정의한 서버스에 해당하는 go 코드를 생성하면, 클라이언트와 서버에 사용할 수 있는 인터페이스 형식이 포함되어 있습니다.<br/>
 그래서 우리는 이 인터페이스 형식에 맞는 클라이언트와 서버코드만 만들어주면 프로그램이 완성됩니다.
 
 ### 30.5.2 폴더 구조
@@ -176,26 +176,28 @@ message ChatMsg {
 ```go
 rpc Chat (stream ChatMsg) returns (stream ChatMsg) {}
 ```
-첫번째 rpc는 서버에서 실행되는 함수임을 나타내는 키워드입니다.
-그다음 함수 이름이 나옵니다. 이름은 Chat()입니다.
-그다음은 입력 인수를 정의합니다. 입력인수는 ChatMsg라는 구조체가 입력됩니다.
-ChatMsg는 하단에 정의 하고 있습니다. ChatMsg는 stream이라는 키워드가 붙어 있습니다. 이것은 ChatMsg 입력이 스트림 현태로 연속적으로 들어올 수 있음을 나타냅니다.
-return 키워드를 쓰고 출력 형태를 정의합니다. 출력 역시 ChatMsg라는 구조체 형태로 출력됩니다.
-3. Chat 기능에 사용되는 ChatMsg 구조체를 정의 합니다.
-message 라는 키워드를 통해서 메시지 정의임을 나타냅니다.
-ChatMsg 구조체에는 두 개의 필드가 있는 문자열 타입이고 각각 sender와 message라는 이름을 가지고 있습니다.
+첫번째 rpc는 서버에서 실행되는 함수임을 나타내는 키워드입니다.<br/>
+그다음 함수 이름이 나옵니다. 이름은 Chat()입니다.<br/>
+그다음은 입력 인수를 정의합니다. 입력인수는 ChatMsg라는 구조체가 입력됩니다.<br/>
+ChatMsg는 하단에 정의 하고 있습니다. ChatMsg는 stream이라는 키워드가 붙어 있습니다. 이것은 ChatMsg 입력이 스트림 현태로 연속적으로 들어올 수 있음을 나타냅니다.<br/>
+return 키워드를 쓰고 출력 형태를 정의합니다. 출력 역시 ChatMsg라는 구조체 형태로 출력됩니다.<br/>
+<br/>
+3. Chat 기능에 사용되는 ChatMsg 구조체를 정의 합니다.<br/>
+message 라는 키워드를 통해서 메시지 정의임을 나타냅니다.<br/>
+ChatMsg 구조체에는 두 개의 필드가 있는 문자열 타입이고 각각 sender와 message라는 이름을 가지고 있습니다.<br/>
 ```go
 message ChatMsg {
   string sender = 1;
   string message = 2;
 }
 ```
-한 가지 특이한 점은 뒤에 =1, =2 와 같이 값이 붙어 있는데 이것은 해당 필드의 초깃값이 아니라 
+한 가지 특이한 점은 뒤에 =1, =2 와 같이 값이 붙어 있는데 이것은 해당 필드의 초깃값이 아니라 <br/>
 해당 필드가 메시지 어디에 위치하는지를 나타내는 필드의 인덱스 입니다.
+<br/>
 ```bash
 protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative chatproto.proto
 ```
-위의 명령어를 사용하면 generate 된 chatproto.pb.go 파일과 chatproto_grpc.pb.go 파일이 생성이 되는데,
+위의 명령어를 사용하면 generate 된 chatproto.pb.go 파일과 chatproto_grpc.pb.go 파일이 생성이 되는데,<br/>
 이번 실습에서는 Makefile 에서 build시 생성되는 것을 사용하여 실습하겠습니다.
 
 ### 30.5.5 서버 구현
