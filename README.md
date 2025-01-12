@@ -287,6 +287,12 @@ func (s *chatServer) Chat(stream pb.ChatService_ChatServer) error {
 	return err
 }
 ```
+2. gRPC 서버를 생성한다. grpc 서버의 구동은 ①서버 생성 - ②실행 단계로 구분된다. 서버를 생성할 때에는 NewServer()를, 실행할 때에는 Serve() 함수를 사용한다.
+```go
+pb.RegisterChatServiceServer(grpcServer, newServer())
+```
+서버를 생성한 후에는 grpc 서비스를 등록해야 하는데, 이때 어떤 API와 어떤 핸들러 함수를 연결할 것인지 매핑 정보를 등록해주는 단계가 필요하다. <br/>
+pb.RegisterChatServiceServer() 함수를 호출하는 것이 바로 그 단계이다. 만약 grpc 서비스가 여러 개라면 각각의 서비스마다 등록해주어야 한다. 이 과정은 서버 실행에 앞서 처리되어야 한다. <br/>
 
 이 코드를 작성 후, 아래의 bash 구문을 실행하면 chatproto.proto 가 generate가 되며, 서버가 실행됩니다.
 ```bash
