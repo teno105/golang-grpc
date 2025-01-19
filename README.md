@@ -178,12 +178,12 @@ message ChatMsg {
 rpc Chat (stream ChatMsg) returns (stream ChatMsg) {}
 ```
 첫번째 rpc는 서버에서 실행되는 함수임을 나타내는 키워드입니다.<br/>
-그다음 함수 이름이 나옵니다. 이름은 Chat()입니다.<br/>
+그다음 함수 이름입니다. 이름은 Chat()입니다.<br/>
 그다음은 입력 인수를 정의합니다. 입력인수는 ChatMsg라는 구조체가 입력됩니다.<br/>
 ChatMsg는 하단에 정의 하고 있습니다. ChatMsg는 stream이라는 키워드가 붙어 있습니다. 이것은 ChatMsg 입력이 스트림 현태로 연속적으로 들어올 수 있음을 나타냅니다.<br/>
 return 키워드를 쓰고 출력 형태를 정의합니다. 출력 역시 ChatMsg라는 구조체 형태로 출력됩니다.<br/>
 <br/>
-3. Chat 기능에 사용되는 ChatMsg 구조체를 정의 합니다.<br/>
+3. Chat 함수에 사용되는 ChatMsg 구조체를 정의 합니다.<br/>
 message 라는 키워드를 통해서 메시지 정의임을 나타냅니다.<br/>
 ChatMsg 구조체에는 두 개의 필드가 있는 문자열 타입이고 각각 sender와 message라는 이름을 가지고 있습니다.<br/>
 ```go
@@ -288,10 +288,12 @@ func (s *chatServer) Chat(stream pb.ChatService_ChatServer) error {
 	return err
 }
 ```
-2. gRPC 서버를 생성한다. grpc 서버의 구동은 ①서버 생성 - ②실행 단계로 구분된다. 서버를 생성할 때에는 NewServer()를, 실행할 때에는 Serve() 함수를 사용한다.
+2. gRPC 서버를 생성합니다.
 ```go
 pb.RegisterChatServiceServer(grpcServer, newServer())
+grpcServer.Serve(lis)
 ```
+grpc 서버의 구동은 ①서버 생성 - ②실행 단계로 구분된다. 서버를 생성할 때에는 NewServer()를, 실행할 때에는 Serve() 함수를 사용한다.<br/>
 서버를 생성한 후에는 grpc 서비스를 등록해야 하는데, 이때 어떤 API와 어떤 핸들러 함수를 연결할 것인지 매핑 정보를 등록해주는 단계가 필요하다. <br/>
 pb.RegisterChatServiceServer() 함수를 호출하는 것이 바로 그 단계이다. 만약 grpc 서비스가 여러 개라면 각각의 서비스마다 등록해주어야 한다. 이 과정은 서버 실행에 앞서 처리되어야 한다. <br/>
 
