@@ -91,6 +91,7 @@ make run
 gRPC란 구글에서 만든 오픈 소스 원격 프로시져 콜(Remote Procedure Call) 프레임워크입니다.<br/>
 RPC는 네트워크를 통해서 다른 컴퓨터에서 원하는 함수(또는 기능)을 실행하는 것입니다.<br/>
 gRPC는 이것을 편하게 하는 프레임워크로 사용이 쉽고 성능이 빠르기 때문에, 가장 많이 사용되는 RPC 프레임워크입니다.<br/>
+출처: https://cloud.google.com/api-gateway/docs/grpc-overview?hl=ko
 
 gRPC를 사용하기 때문에 gRPC 라이브러리를 설치합니다.
 ```bash
