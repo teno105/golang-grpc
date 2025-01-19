@@ -22,7 +22,26 @@ mkdir -p cmd/client
 mkdir -p proto
 ```
 
-### 2. `Makefile` 작성
+### 2 폴더 구조
+```plaintext
+golang-grpc/
+│
+├── cmd/
+│   ├── client/
+│   │    └── client.go
+│   │
+│   └── server/
+│        └── server.go
+│
+├── proto/
+│   └── chatproto.proto
+│
+├── go.mod
+├── Makefile
+└── README.md
+```
+
+### 3. `Makefile` 작성
 
 이제 프로젝트의 빌드 및 실행을 자동화하기 위한 `Makefile`을 프로젝트 루트에 작성합니다.
 
@@ -127,29 +146,10 @@ export PATH="$HOME/go/bin:$PATH"
 ```
 ### 30.5 gRPC를 이용한 채팅 프로그램
 ### 30.5.1 제작 과정
-gRPC를 이용해서 채팅 프로그램을 만들기 위해서는 먼저 클라이언트와 서버 간 주고받을 데이터를 정의하는 서비스 정의 파일을 만들어야 합니다.<br/>
+gRPC를 이용해서 채팅 프로그램을 만들기 위해서는 클라이언트와 서버 간 주고받을 데이터를 정의하는 서비스 정의 파일을 만들어야 합니다.<br/>
 이 서비스 정의 파일은 프로토버퍼에 정한 형식을 따라야 합니다.<br/>
 서비스 정의파일에 정의한 서버스에 해당하는 go 코드를 생성하면, 클라이언트와 서버에 사용할 수 있는 인터페이스 형식이 포함되어 있습니다.<br/>
 그래서 우리는 이 인터페이스 형식에 맞는 클라이언트와 서버코드만 만들어주면 프로그램이 완성됩니다.
-
-### 30.5.2 폴더 구조
-```plaintext
-golang-grpc/
-│
-├── cmd/
-│   ├── client/
-│   │    └── client.go
-│   │
-│   └── server/
-│        └── server.go
-│
-├── proto/
-│   └── chatproto.proto
-│
-├── go.mod
-├── Makefile
-└── README.md
-```
 
 ### 30.5.3 서비스 정의 파일
 proto 폴더 안에 서비스 정의 파일을 만들어 줍니다.
